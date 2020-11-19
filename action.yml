@@ -1,0 +1,24 @@
+name: "Workflow Dispatch"
+description: "Trigger a workflow"
+inputs:
+  repo:
+    description: "Name of the repository"
+    required: false
+    default: ${{ github.repository }}
+  workflow:
+    description: >
+      The ID of the workflow.
+      You can also pass the workflow file name as a string
+    required: true
+  token:
+    description: "Personal access token"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: >
+        pwsh ${{ github.action_path }}/dispatch.ps1 
+        -Token ${{ inputs.token }}
+        -Repository ${{ inputs.repo }}
+        -Workflow ${{ inputs.workflow }}
+      shell: pwsh
